@@ -17,6 +17,8 @@ namespace LR1_MAUI
 
             var tokens = new CommonTokenStream(lexer);
             var parser = new LabCalculatorParser(tokens);
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(new ThrowExceptionErrorListener());
 
             var tree = parser.compileUnit();
 

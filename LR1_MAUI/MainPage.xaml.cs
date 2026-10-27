@@ -133,8 +133,17 @@ namespace LR1_MAUI
         }
         private async void HelpButton_Clicked(object? sender, EventArgs e)
         {
-            await DisplayAlertAsync("Довідка", "Лабораторна робота 1. Студента Власова Влада Олександровича",
-            "OK");
+            await DisplayAlertAsync("Довідка",
+                "Електронна таблиця (ЛР1) з ООП\n" +
+                "Власов Влад Олександрович К-25\n" +
+                "Варіант 11:\n" +
+                "Операції: +  -  *  /  ^\n" +
+                "Функції: inc(x) ; dec(x) ; max(x,y) ; min(x,y)\n\n" +
+                "Додатково:\n" +
+                "Адреси приклад: A1 ; B12 ; AA1 (великі латинські!)\n" +
+                "Назви функцій пишуться малими літерами\n" +
+                "Числа вводяться цілими а для від'ємного значеня: (0-5)\n" +
+                "Приклад: max(A1, 10) ^ 2 - inc(A2)", "Гаразд");
         }
         private void DeleteRowButton_Clicked(object? sender, EventArgs e)
         {
