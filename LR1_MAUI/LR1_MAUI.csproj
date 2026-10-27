@@ -72,4 +72,8 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Antlr4 Include="LabCalculator.g4" Package="$(RootNamespace)" />
+	</ItemGroup>
+
 </Project>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LabCalculator
+namespace LR1_MAUI
 {
     class LabCalculatorVisitor : LabCalculatorBaseVisitor<double>
     {
