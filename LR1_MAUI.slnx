@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="LR1_MAUI/LR1_MAUI.csproj" />
+  <Project Path="LR1_MAUI/LR1_MAUI.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="LR1_MAUI_UnitTests/LR1_MAUI_UnitTests.csproj" />
 </Solution>
