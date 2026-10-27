@@ -99,41 +99,44 @@ namespace LR1_MAUI
             return columnName;
         }
         // викликається, коли користувач вийде зі зміненої клітинки (втратить фокус)
-        private void Entry_Unfocused(object sender, FocusEventArgs e)
+        private void Entry_Unfocused(object? sender, FocusEventArgs e)
         {
-            var entry = (Entry)sender;
+            // щоб програма не впала бонусом -попердження компілятора null
+            if (sender is not Entry entry)
+                return;
+
             var row = Grid.GetRow(entry) - 1;
             var col = Grid.GetColumn(entry) - 1;
             var content = entry.Text;
             // Додайте додаткову логіку, яка виконується при виході зі зміненої клітинки
         }
-        private void CalculateButton_Clicked(object sender, EventArgs e)
+        private void CalculateButton_Clicked(object? sender, EventArgs e)
         {
             // Обробка кнопки "Порахувати"
         }
-        private void SaveButton_Clicked(object sender, EventArgs e)
+        private void SaveButton_Clicked(object? sender, EventArgs e)
         {
             // Обробка кнопки "Зберегти"
         }
-        private void ReadButton_Clicked(object sender, EventArgs e)
+        private void ReadButton_Clicked(object? sender, EventArgs e)
         {
             // Обробка кнопки "Прочитати"
         }
-        private async void ExitButton_Clicked(object sender, EventArgs e)
+        private async void ExitButton_Clicked(object? sender, EventArgs e)
         {
-            bool answer = await DisplayAlert("Підтвердження", "Ви дійсно хочете вийти?",
+            bool answer = await DisplayAlertAsync("Підтвердження", "Ви дійсно хочете вийти?",
             "Так", "Ні");
             if (answer)
             {
                 System.Environment.Exit(0);
             }
         }
-        private async void HelpButton_Clicked(object sender, EventArgs e)
+        private async void HelpButton_Clicked(object? sender, EventArgs e)
         {
-            await DisplayAlert("Довідка", "Лабораторна робота 1. Студента Власова Влада Олександровича",
+            await DisplayAlertAsync("Довідка", "Лабораторна робота 1. Студента Власова Влада Олександровича",
             "OK");
         }
-        private void DeleteRowButton_Clicked(object sender, EventArgs e)
+        private void DeleteRowButton_Clicked(object? sender, EventArgs e)
         {
             if (grid.RowDefinitions.Count > 1)
             {
@@ -146,7 +149,7 @@ namespace LR1_MAUI
                 }
             }
         }
-        private void DeleteColumnButton_Clicked(object sender, EventArgs e)
+        private void DeleteColumnButton_Clicked(object? sender, EventArgs e)
         {
             if (grid.ColumnDefinitions.Count > 1)
             {
@@ -161,7 +164,7 @@ namespace LR1_MAUI
                 }
             }
         }
-        private void AddRowButton_Clicked(object sender, EventArgs e)
+        private void AddRowButton_Clicked(object? sender, EventArgs e)
         {
             int newRow = grid.RowDefinitions.Count;
             // Add a new row definition
@@ -193,7 +196,7 @@ namespace LR1_MAUI
                 grid.Children.Add(entry);
             }
         }
-        private void AddColumnButton_Clicked(object sender, EventArgs e)
+        private void AddColumnButton_Clicked(object? sender, EventArgs e)
         {
             int newColumn = grid.ColumnDefinitions.Count;
             // Add a new column definition
