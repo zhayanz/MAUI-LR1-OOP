@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSTest.Sdk/4.0.2">
+<Project Sdk="MSTest.Sdk/4.0.2">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -8,8 +8,11 @@
     <UseVSTest>true</UseVSTest>
   </PropertyGroup>
 
+  <!-- Посилання на LR1_MAUI буде підключено, коли писатимемо тести для калькулятора -->
+  <!--
   <ItemGroup>
     <ProjectReference Include="..\LR1_MAUI\LR1_MAUI.csproj" />
   </ItemGroup>
+  -->
 
 </Project>
