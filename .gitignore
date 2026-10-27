@@ -6,6 +6,10 @@
 # dotenv files
 .env
 
+# my files
+LR1_INFO/
+LR1_Diagrams/old_diagrams/AboutThisFolder.md
+
 # User-specific files
 *.rsuser
 *.suo

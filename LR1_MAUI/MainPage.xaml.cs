@@ -130,7 +130,7 @@ namespace LR1_MAUI
         }
         private async void HelpButton_Clicked(object sender, EventArgs e)
         {
-            await DisplayAlert("Довідка", "Лабораторна робота 1. Студента Василя Іваненка",
+            await DisplayAlert("Довідка", "Лабораторна робота 1. Студента Власова Влада Олександровича",
             "OK");
         }
         private void DeleteRowButton_Clicked(object sender, EventArgs e)

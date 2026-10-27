@@ -8,7 +8,6 @@
     <UseVSTest>true</UseVSTest>
   </PropertyGroup>
 
-  <!-- Посилання на LR1_MAUI буде підключено, коли писатимемо тести для калькулятора -->
   <!--
   <ItemGroup>
     <ProjectReference Include="..\LR1_MAUI\LR1_MAUI.csproj" />
