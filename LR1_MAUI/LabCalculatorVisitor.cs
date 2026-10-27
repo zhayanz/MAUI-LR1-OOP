@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace LR1_MAUI
 
         public override double VisitNumberExpr(LabCalculatorParser.NumberExprContext context)
         {
-            var result = double.Parse(context.GetText());
+            var result = double.Parse(context.GetText(), CultureInfo.InvariantCulture);
             Debug.WriteLine(result);
             return result;
         }
@@ -87,6 +88,42 @@ namespace LR1_MAUI
                 Debug.WriteLine("{0} / {1}", left, right);
                 return left / right;
             }
+        }
+
+        public override double VisitMaxExpr(LabCalculatorParser.MaxExprContext context)
+        {
+            var left = WalkLeft(context);
+            var right = WalkRight(context);
+
+            if (left > right)
+            {
+                return left;
+            }
+            return right;
+        }
+
+        public override double VisitMinExpr(LabCalculatorParser.MinExprContext context)
+        {
+            var left = WalkLeft(context);
+            var right = WalkRight(context);
+
+            if (left < right)
+            {
+                return left;
+            }
+            return right;
+        }
+
+        public override double VisitIncExpr(LabCalculatorParser.IncExprContext context)
+        {
+            var value = Visit(context.expression());
+            return value + 1;
+        }
+
+        public override double VisitDecExpr(LabCalculatorParser.DecExprContext context)
+        {
+            var value = Visit(context.expression());
+            return value - 1;
         }
 
         private double WalkLeft(LabCalculatorParser.ExpressionContext context)
