@@ -9,7 +9,7 @@ namespace LR1_MAUI
 {
     public static class Calculator
     {
-        public static double Evaluate(string expression)
+        public static double Evaluate(string expression, Dictionary<string, Cell> cells, HashSet<string> visited)
         {
             var lexer = new LabCalculatorLexer(new AntlrInputStream(expression));
             lexer.RemoveErrorListeners();
@@ -22,7 +22,7 @@ namespace LR1_MAUI
 
             var tree = parser.compileUnit();
 
-            var visitor = new LabCalculatorVisitor();
+            var visitor = new LabCalculatorVisitor(cells, visited);
 
             return visitor.Visit(tree);
         }

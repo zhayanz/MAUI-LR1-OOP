@@ -12,7 +12,14 @@ namespace LR1_MAUI
     {
         //таблиця ідентифікаторів (тут для прикладу)
         //в лабораторній роботі замінити на свою!!!!
-        Dictionary<string, double> tableIdentifier = new Dictionary<string, double>();
+        private readonly Dictionary<string, Cell> _cells;
+        private readonly HashSet<string> _visited;
+
+        public LabCalculatorVisitor(Dictionary<string, Cell> cells, HashSet<string> visited)
+        {
+            _cells = cells;
+            _visited = visited;
+        }
 
         public override double VisitCompileUnit(LabCalculatorParser.CompileUnitContext context)
         {
@@ -29,12 +36,26 @@ namespace LR1_MAUI
         //IdentifierExpr
         public override double VisitIdentifierExpr(LabCalculatorParser.IdentifierExprContext context)
         {
-            var result = context.GetText();
-            double value;
+            var result = context.GetText().ToUpper();
             //видобути значення змінної з таблиці
-            if (tableIdentifier.TryGetValue(result.ToString(), out value))
+            if (_cells.ContainsKey(result))
             {
-                return value;
+                if (_visited.Contains(result))
+                    throw new InvalidOperationException("Циклічне посилання");
+
+                _visited.Add(result);
+                try
+                {
+                    var expression = _cells[result].Expression;
+                    if (string.IsNullOrWhiteSpace(expression))
+                        return 0.0;
+
+                    return Calculator.Evaluate(expression, _cells, _visited);
+                }
+                finally
+                {
+                    _visited.Remove(result);
+                }
             }
             else
             {

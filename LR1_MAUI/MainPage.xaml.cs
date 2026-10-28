@@ -11,6 +11,7 @@ namespace LR1_MAUI
         const int CountColumn = 8; // кількість стовпчиків (A to Z)
         const int CountRow = 10; // кількість рядків
         private bool _isValueMode = true;
+        private Spreadsheet _spreadsheet = new Spreadsheet(CountRow, CountColumn);
         public MainPage()
         {
             InitializeComponent();
@@ -78,6 +79,12 @@ namespace LR1_MAUI
 
                     };
 
+                    entry.Focused += (s, args) =>
+                    {
+                        var address = GetColumnName(Grid.GetColumn(entry)) + Grid.GetRow(entry);
+                        if (_spreadsheet.Cells.ContainsKey(address))
+                            entry.Text = _spreadsheet.Cells[address].Expression;
+                    };
                     entry.Unfocused += Entry_Unfocused; // обробник події Unfocused
 
                     Grid.SetRow(entry, row + 1);
@@ -110,17 +117,96 @@ namespace LR1_MAUI
             var row = Grid.GetRow(entry) - 1;
             var col = Grid.GetColumn(entry) - 1;
             var content = entry.Text;
+            var address = GetColumnName(col + 1) + (row + 1);
+            if (_spreadsheet.Cells.ContainsKey(address) == false)
+            {
+                _spreadsheet.Cells.Add(address, new Cell(address));
+            }
+
+            if (content != null)
+            {
+                _spreadsheet.Cells[address].Expression = content;
+            }
+            else
+            {
+                _spreadsheet.Cells[address].Expression = "";
+            }
+            if (_isValueMode)
+                entry.Text = _spreadsheet.Cells[address].Value;
             // Додайте додаткову логіку, яка виконується при виході зі зміненої клітинки
         }
         private void CalculateButton_Clicked(object? sender, EventArgs e)
         {
+            foreach (var view in grid.Children)
+            {
+                if (view is Entry entry && entry.IsFocused)
+                {
+                    var address = GetColumnName(Grid.GetColumn(entry)) + Grid.GetRow(entry);
+                    if (_spreadsheet.Cells.ContainsKey(address) == false)
+                    {
+                        _spreadsheet.Cells.Add(address, new Cell(address));
+                    }
+                    if (entry.Text != null)
+                    {
+                        _spreadsheet.Cells[address].Expression = entry.Text;
+                    }
+                    else
+                    {
+                        _spreadsheet.Cells[address].Expression = "";
+                    }
+                }
+            }
+            _spreadsheet.RecalculateAll();
+            UpdateGridDisplay();
             // Обробка кнопки "Порахувати"
         }
         private void ModeButton_Clicked(object? sender, EventArgs e)
         {
-            _isValueMode = !_isValueMode;
+            foreach (var view in grid.Children)
+            {
+                if (view is Entry entry && entry.IsFocused)
+                {
+                    var address = GetColumnName(Grid.GetColumn(entry)) + Grid.GetRow(entry);
+                    if (_spreadsheet.Cells.ContainsKey(address) == false)
+                    {
+                        _spreadsheet.Cells.Add(address, new Cell(address));
+                    }
+                    if (entry.Text != null)
+                    {
+                        _spreadsheet.Cells[address].Expression = entry.Text;
+                    }
+                    else
+                    {
+                        _spreadsheet.Cells[address].Expression = "";
+                    }
+                }
+            }
+            if (_isValueMode)
+            {
+                _isValueMode = false;
+            }
+            else
+            {
+                _isValueMode = true;
+            }
             modeButton.Text = _isValueMode ? "Режим: ЗНАЧЕННЯ" : "Режим: ВИРАЗ";
             modeMenuItem.Text = modeButton.Text;
+            UpdateGridDisplay();
+        }
+        private void UpdateGridDisplay()
+        {
+            foreach (var view in grid.Children)
+            {
+                if (view is Entry entry && entry.IsFocused == false)
+                {
+                    var address = GetColumnName(Grid.GetColumn(entry)) + Grid.GetRow(entry);
+                    if (_spreadsheet.Cells.ContainsKey(address))
+                    {
+                        var cell = _spreadsheet.Cells[address];
+                        entry.Text = _isValueMode ? cell.Value : cell.Expression;
+                    }
+                }
+            }
         }
         private void SaveButton_Clicked(object? sender, EventArgs e)
         {
@@ -207,6 +293,12 @@ namespace LR1_MAUI
                     HorizontalOptions = LayoutOptions.Center
 
                 };
+                entry.Focused += (s, args) =>
+                {
+                    var address = GetColumnName(Grid.GetColumn(entry)) + Grid.GetRow(entry);
+                    if (_spreadsheet.Cells.ContainsKey(address))
+                        entry.Text = _spreadsheet.Cells[address].Expression;
+                };
                 entry.Unfocused += Entry_Unfocused;
                 Grid.SetRow(entry, newRow);
                 Grid.SetColumn(entry, col + 1);
@@ -237,6 +329,12 @@ namespace LR1_MAUI
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center
 
+                };
+                entry.Focused += (s, args) =>
+                {
+                    var address = GetColumnName(Grid.GetColumn(entry)) + Grid.GetRow(entry);
+                    if (_spreadsheet.Cells.ContainsKey(address))
+                        entry.Text = _spreadsheet.Cells[address].Expression;
                 };
                 entry.Unfocused += Entry_Unfocused;
                 Grid.SetRow(entry, row + 1);
