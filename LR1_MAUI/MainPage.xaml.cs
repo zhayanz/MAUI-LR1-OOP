@@ -20,15 +20,23 @@ namespace LR1_MAUI
         //створення таблиці
         private void CreateGrid()
         {
-
+            foreach (var view in grid.Children)
+            {
+                if (view is Entry entry)
+                    entry.Unfocused -= Entry_Unfocused;
+            }
+            grid.Children.Clear();
+            grid.RowDefinitions.Clear();
+            grid.ColumnDefinitions.Clear();
             AddColumnsAndColumnLabels();
             AddRowsAndCellEntries();
+            UpdateGridDisplay();
         }
         private void AddColumnsAndColumnLabels()
         {
             grid.RowDefinitions.Add(new RowDefinition());
             // Додати стовпці та підписи для стовпців
-            for (int col = 0; col < CountColumn + 1; col++)
+            for (int col = 0; col < _spreadsheet.ColumnCount + 1; col++)
             {
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
                 if (col > 0)
@@ -52,7 +60,7 @@ namespace LR1_MAUI
         private void AddRowsAndCellEntries()
         {
             // Додати рядки, підписи для рядків та комірки
-            for (int row = 0; row < CountRow; row++)
+            for (int row = 0; row < _spreadsheet.RowCount; row++)
             {
                 grid.RowDefinitions.Add(new RowDefinition());
                 // Додати підпис для номера рядка
@@ -68,7 +76,7 @@ namespace LR1_MAUI
                 Grid.SetColumn(label, 0);
                 grid.Children.Add(label);
                 // Додати комірки (Entry) для вмісту
-                for (int col = 0; col < CountColumn; col++)
+                for (int col = 0; col < _spreadsheet.ColumnCount; col++)
                 {
                     var entry = new Entry
                     {
@@ -208,12 +216,39 @@ namespace LR1_MAUI
                 }
             }
         }
-        private void SaveButton_Clicked(object? sender, EventArgs e)
+        private async void SaveButton_Clicked(object? sender, EventArgs e)
         {
+            try
+            {
+                CalculateButton_Clicked(sender, e);
+                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "table.json");
+                _spreadsheet.Save(path);
+                await DisplayAlertAsync("Збережено", "Файл збережено за шляхом: " + path, "Гаразд");
+            }
+            catch (Exception)
+            {
+                await DisplayAlertAsync("Помилка!", "Не вдалося зберегти таблицю", "Гаразд");
+            }
             // Обробка кнопки "Зберегти"
         }
-        private void ReadButton_Clicked(object? sender, EventArgs e)
+        private async void ReadButton_Clicked(object? sender, EventArgs e)
         {
+            try
+            {
+                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "table.json");
+                if (File.Exists(path) == false)
+                {
+                    await DisplayAlertAsync("Увага!", "Файл " + path + " не знайдено", "Гаразд");
+                    return;
+                }
+                _spreadsheet.Load(path);
+                CreateGrid();
+                await DisplayAlertAsync("Успіх", "Таблицю успішно завантажено", "Гаразд");
+            }
+            catch (Exception)
+            {
+                await DisplayAlertAsync("Помилка!", "Не вдалося прочитати таблицю, Перевірте файл!", "Гаразд");
+            }
             // Обробка кнопки "Прочитати"
         }
         private async void ExitButton_Clicked(object? sender, EventArgs e)
@@ -259,6 +294,7 @@ namespace LR1_MAUI
                     }
                 }
                 grid.RowDefinitions.RemoveAt(lastRowIndex);
+                _spreadsheet.RowCount--;
             }
         }
         private void DeleteColumnButton_Clicked(object? sender, EventArgs e)
@@ -281,6 +317,7 @@ namespace LR1_MAUI
                     }
                 }
                 grid.ColumnDefinitions.RemoveAt(lastColumnIndex);
+                _spreadsheet.ColumnCount--;
             }
         }
         private void AddRowButton_Clicked(object? sender, EventArgs e)
@@ -322,6 +359,7 @@ namespace LR1_MAUI
                 Grid.SetColumn(entry, col + 1);
                 grid.Children.Add(entry);
             }
+            _spreadsheet.RowCount++;
         }
         private void AddColumnButton_Clicked(object? sender, EventArgs e)
         {
@@ -362,6 +400,7 @@ namespace LR1_MAUI
                 Grid.SetColumn(entry, newColumn);
                 grid.Children.Add(entry);
             }
+            _spreadsheet.ColumnCount++;
         }
     }
 }
