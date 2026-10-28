@@ -1,17 +1,19 @@
 <Project Sdk="MSTest.Sdk/4.0.2">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UseMaui>true</UseMaui>
+    <DisableResizetizer>true</DisableResizetizer>
+    <PlatformTarget>x64</PlatformTarget>
     <UseVSTest>true</UseVSTest>
   </PropertyGroup>
 
-  <!--
   <ItemGroup>
-    <ProjectReference Include="..\LR1_MAUI\LR1_MAUI.csproj" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <ProjectReference Include="..\LR1_MAUI\LR1_MAUI.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
-  -->
 
 </Project>

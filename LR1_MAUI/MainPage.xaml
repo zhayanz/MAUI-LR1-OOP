@@ -26,7 +26,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -49,10 +48,8 @@
             </StackLayout>
         </ScrollView>
 
-        <Entry x:Name="textInput" Placeholder="Введіть формулу" Grid.Row="1" Grid.ColumnSpan="2" />
-
-        <ScrollView Grid.Row="2" Grid.ColumnSpan="2">
-            <Grid x:Name="grid">
+        <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid x:Name="grid" RowSpacing="0" ColumnSpacing="0">
             </Grid>
         </ScrollView>
     </Grid>

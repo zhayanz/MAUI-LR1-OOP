@@ -82,8 +82,8 @@ namespace LR1_MAUI
                     {
                         Text = "",
 
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalOptions = LayoutOptions.Center
+                        VerticalOptions = LayoutOptions.Fill,
+                        HorizontalOptions = LayoutOptions.Fill
 
                     };
 
@@ -344,8 +344,8 @@ namespace LR1_MAUI
                 {
                     Text = "",
 
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Fill,
+                    HorizontalOptions = LayoutOptions.Fill
 
                 };
                 entry.Focused += (s, args) =>
@@ -384,8 +384,8 @@ namespace LR1_MAUI
                 var entry = new Entry
                 {
                     Text = "",
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Fill,
+                    HorizontalOptions = LayoutOptions.Fill
 
                 };
                 entry.Focused += (s, args) =>
