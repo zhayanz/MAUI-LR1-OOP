@@ -4,6 +4,24 @@
              xmlns:local="clr-namespace:LR1_MAUI"
              x:Class="LR1_MAUI.MainPage">
 
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Файл">
+            <MenuFlyoutItem Text="Зберегти" Clicked="SaveButton_Clicked" />
+            <MenuFlyoutItem Text="Прочитати" Clicked="ReadButton_Clicked" />
+            <MenuFlyoutItem Text="Вийти" Clicked="ExitButton_Clicked" />
+        </MenuBarItem>
+        <MenuBarItem Text="Таблиця">
+            <MenuFlyoutItem Text="Порахувати" Clicked="CalculateButton_Clicked" />
+            <MenuFlyoutItem Text="Додати рядок" Clicked="AddRowButton_Clicked" />
+            <MenuFlyoutItem Text="Видалити рядок" Clicked="DeleteRowButton_Clicked" />
+            <MenuFlyoutItem Text="Додати стовпчик" Clicked="AddColumnButton_Clicked" />
+            <MenuFlyoutItem Text="Видалити стовпчик" Clicked="DeleteColumnButton_Clicked" />
+        </MenuBarItem>
+        <MenuBarItem Text="Додатково">
+            <MenuFlyoutItem Text="Довідка" Clicked="HelpButton_Clicked" />
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -15,17 +33,19 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackLayout Orientation="Horizontal">
-            <Button Text="Зберегти" Clicked="SaveButton_Clicked" />
-            <Button Text="Прочитати" Clicked="ReadButton_Clicked" />
-            <Button Text="Вийти" Clicked="ExitButton_Clicked" />
-            <Button Text="Порахувати" Clicked="CalculateButton_Clicked" />
-            <Button Text="Довідка" Clicked="HelpButton_Clicked" />
-            <Button Text="Видалити рядок" Clicked="DeleteRowButton_Clicked" />
-            <Button Text="Видалити стовпчик" Clicked="DeleteColumnButton_Clicked" />
-            <Button Text="Додати рядок" Clicked="AddRowButton_Clicked" />
-            <Button Text="Додати стовпчик" Clicked="AddColumnButton_Clicked" />
-        </StackLayout>
+        <ScrollView Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Зберегти" Clicked="SaveButton_Clicked" />
+                <Button Text="Прочитати" Clicked="ReadButton_Clicked" />
+                <Button Text="Вийти" Clicked="ExitButton_Clicked" />
+                <Button Text="Порахувати" Clicked="CalculateButton_Clicked" />
+                <Button Text="Додати рядок" Clicked="AddRowButton_Clicked" />
+                <Button Text="Видалити рядок" Clicked="DeleteRowButton_Clicked" />
+                <Button Text="Додати стовпчик" Clicked="AddColumnButton_Clicked" />
+                <Button Text="Видалити стовпчик" Clicked="DeleteColumnButton_Clicked" />
+                <Button Text="Довідка" Clicked="HelpButton_Clicked" />
+            </StackLayout>
+        </ScrollView>
 
         <Entry x:Name="textInput" Placeholder="Введіть текст" Grid.Row="1" Grid.ColumnSpan="2" />
 

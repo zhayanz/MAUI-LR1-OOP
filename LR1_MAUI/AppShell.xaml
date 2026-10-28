@@ -7,7 +7,7 @@
     Title="LR1_MAUI">
 
     <ShellContent
-        Title="Home"
+        Title="Електронна таблиця"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
