@@ -244,12 +244,21 @@ namespace LR1_MAUI
             if (grid.RowDefinitions.Count > 1)
             {
                 int lastRowIndex = grid.RowDefinitions.Count - 1;
-                grid.RowDefinitions.RemoveAt(lastRowIndex);
-                grid.Children.RemoveAt(lastRowIndex * (CountColumn + 1)); // Remove label
-                for (int col = 0; col < CountColumn; col++)
+                for (int i = grid.Children.Count - 1; i >= 0; i--)
                 {
-                    grid.Children.RemoveAt((lastRowIndex * CountColumn) + col + 1); //Remove entry
+                    var view = (View)grid.Children[i];
+                    if (Grid.GetRow(view) == lastRowIndex)
+                    {
+                        if (view is Entry entry)
+                        {
+                            entry.Unfocused -= Entry_Unfocused;
+                            var address = GetColumnName(Grid.GetColumn(entry)) + lastRowIndex;
+                            _spreadsheet.Cells.Remove(address);
+                        }
+                        grid.Children.RemoveAt(i);
+                    }
                 }
+                grid.RowDefinitions.RemoveAt(lastRowIndex);
             }
         }
         private void DeleteColumnButton_Clicked(object? sender, EventArgs e)
@@ -257,14 +266,21 @@ namespace LR1_MAUI
             if (grid.ColumnDefinitions.Count > 1)
             {
                 int lastColumnIndex = grid.ColumnDefinitions.Count - 1;
-                grid.ColumnDefinitions.RemoveAt(lastColumnIndex);
-                grid.Children.RemoveAt(lastColumnIndex); // Remove label
-                for (int row = 0; row < CountRow; row++)
+                for (int i = grid.Children.Count - 1; i >= 0; i--)
                 {
-
-                    grid.Children.RemoveAt(row * (CountColumn + 1) + lastColumnIndex +
-                    1); // Remove entry
+                    var view = (View)grid.Children[i];
+                    if (Grid.GetColumn(view) == lastColumnIndex)
+                    {
+                        if (view is Entry entry)
+                        {
+                            entry.Unfocused -= Entry_Unfocused;
+                            var address = GetColumnName(lastColumnIndex) + Grid.GetRow(entry);
+                            _spreadsheet.Cells.Remove(address);
+                        }
+                        grid.Children.RemoveAt(i);
+                    }
                 }
+                grid.ColumnDefinitions.RemoveAt(lastColumnIndex);
             }
         }
         private void AddRowButton_Clicked(object? sender, EventArgs e)
@@ -283,8 +299,10 @@ namespace LR1_MAUI
             Grid.SetColumn(label, 0);
             grid.Children.Add(label);
             // Add entry cells for the new row
-            for (int col = 0; col < CountColumn; col++)
+            for (int col = 0; col < grid.ColumnDefinitions.Count - 1; col++)
             {
+                var cellAddress = GetColumnName(col + 1) + newRow;
+                _spreadsheet.Cells.Add(cellAddress, new Cell(cellAddress));
                 var entry = new Entry
                 {
                     Text = "",
@@ -321,8 +339,10 @@ namespace LR1_MAUI
             Grid.SetColumn(label, newColumn);
             grid.Children.Add(label);
             // Add entry cells for the new column
-            for (int row = 0; row < CountRow; row++)
+            for (int row = 0; row < grid.RowDefinitions.Count - 1; row++)
             {
+                var cellAddress = GetColumnName(newColumn) + (row + 1);
+                _spreadsheet.Cells.Add(cellAddress, new Cell(cellAddress));
                 var entry = new Entry
                 {
                     Text = "",
