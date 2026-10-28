@@ -8,8 +8,9 @@ namespace LR1_MAUI
 {
     public partial class MainPage : ContentPage
     {
-        const int CountColumn = 20; // кількість стовпчиків (A to Z)
-        const int CountRow = 50; // кількість рядків
+        const int CountColumn = 8; // кількість стовпчиків (A to Z)
+        const int CountRow = 10; // кількість рядків
+        private bool _isValueMode = true;
         public MainPage()
         {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace LR1_MAUI
         }
         private void AddColumnsAndColumnLabels()
         {
+            grid.RowDefinitions.Add(new RowDefinition());
             // Додати стовпці та підписи для стовпців
             for (int col = 0; col < CountColumn + 1; col++)
             {
@@ -113,6 +115,12 @@ namespace LR1_MAUI
         private void CalculateButton_Clicked(object? sender, EventArgs e)
         {
             // Обробка кнопки "Порахувати"
+        }
+        private void ModeButton_Clicked(object? sender, EventArgs e)
+        {
+            _isValueMode = !_isValueMode;
+            modeButton.Text = _isValueMode ? "Режим: ЗНАЧЕННЯ" : "Режим: ВИРАЗ";
+            modeMenuItem.Text = modeButton.Text;
         }
         private void SaveButton_Clicked(object? sender, EventArgs e)
         {
