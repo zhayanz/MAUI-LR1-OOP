@@ -10,8 +10,6 @@ namespace LR1_MAUI
 {
     class LabCalculatorVisitor : LabCalculatorBaseVisitor<double>
     {
-        //таблиця ідентифікаторів (тут для прикладу)
-        //в лабораторній роботі замінити на свою!!!!
         private readonly Dictionary<string, Cell> _cells;
         private readonly HashSet<string> _visited;
 
